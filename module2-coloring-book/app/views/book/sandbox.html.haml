@@ -1,0 +1,39 @@
+
+          
+    
+:coffeescript
+  window.paper = paper
+
+  $ ->
+    window.gui = new dat.GUI()
+    
+    window.app = new PaperJSApp
+      canvas: $('#main-canvas')
+      name: "MyColoringSandbox"
+      
+    alertify.set('notifier','position', 'bottom-left')
+    sandbox_routine()
+    
+    
+  sandbox_routine = ()->
+    c = new paper.Path.Circle
+      radius: 50
+      fillColor: "red"
+      position: paper.view.center
+  
+    
+:scss
+  html, body, #sandbox{
+    width: 100%;
+    height: 100%;
+    overflow:hidden;
+  }
+  canvas{
+    border: 1px solid blue;
+    background: lighten(blue, 40%);
+  }
+
+
+#sandbox
+  %canvas{id: "main-canvas", resize: "resize"}
+

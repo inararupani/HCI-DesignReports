@@ -1,0 +1,118 @@
+:coffeescript
+  aws_wss = "ws://162.243.120.86:3010"
+  window.socket = undefined;
+  
+  window.make_circle = (remote_id)->
+    return new paper.Path.Circle
+      radius: 50
+      fillColor: "red"
+      position: paper.view.center
+      remote_id: remote_id
+
+  $ ->
+    window.gui = new dat.GUI()
+    window.app = new PaperJSApp
+      canvas: $('canvas')
+      name: "MassControl"
+    alertify.set('notifier','position', 'bottom-left')
+    
+    # YOUR CODE HERE
+    start_socket = -> 
+      socketConnection = new WebSocket(aws_wss, ["http"])
+      console.log("ATTEMPTING CONNECTION ON ws://162.243.120.86:3010")
+    
+      socketConnection.onopen = (event) ->
+        alertify.notify "Connecting to socket"
+        $('#connect').addClass("disabled")
+        $('#connect').addClass("green")
+        $('#connect').removeClass("red")
+      
+      socketConnection.onclose = (event) ->
+        alertify.notify "Leaving the socket"
+        $('#connect').removeClass("disabled")
+        $('#connect').removeClass("green")
+        $('#connect').addClass("red")
+      
+      socketConnection.onmessage = (event) ->
+        data = JSON.parse(event.data)
+        console.log("Server >>", data)
+        $(document).trigger('move',data)
+        
+      socketConnection.onerror = (event) ->
+        alertify.error "Error"
+    
+      return socketConnection
+    
+    $(document).on 'move', (event, data) ->
+      console.log ("trigger event happened")
+      console.log(data)
+      console.log(event)
+      
+      circleResults = paper.project.getItems({remote_id: data.remote_id})
+      console.log(circleResults.length)
+      #working on new circle/connection object at a time
+      mycircle = circleResults[0]
+    
+      # already present
+      if circleResults.length != 0
+        mycircle.fillColor = data.color_id
+        if data.direction == "up"
+          return mycircle.position.y -=10 
+        if data.direction == "down"
+          return mycircle.position.y +=10
+        if data.direction == "right"
+          return mycircle.position.x +=10  
+        if data.direction == "left"
+          return mycircle.position.x -=10
+      #new data / connection
+      else
+        mycircle = make_circle(data.remote_id, dat.color_id)
+    start_socket()  
+    
+    
+  # Method 1 trial 
+       
+    #     _.each (circleResults.length), (item) ->
+    #       newCircle = item
+    #       if data.remote_id == item.remote_id
+    #         newCircle.fillColor = data.color_id
+    #         if data.direction = "up"
+    #           newCircle.position.y -=10 
+    #         if data.direction = "down"
+    #           newCircle.position.y +=10
+    #         if data.direction = "right"
+    #           newCircle.position.x +=10  
+    #         if data.direction = "left"
+    #           newCircle.position.x -=10
+
+    # window.make_circle = (remote_id) ->
+    #   Circle = new paper.Path.Circle
+    #     remote_id: data.remote_id
+    #     fillColor: data.color_id
+    #     #radius: 50
+    #     direction: data.direction
+    #     if data.direction = "up"
+    #       Circle.position.y -=10 
+    #     if data.direction = "down"
+    #       Circle.position.y +=10
+    #     if data.direction = "right"
+    #       Circle.position.x +=10  
+    #     if data.direction = "left"
+    #       Circle.position.x -=10 
+
+/ DO NOT MODIFY CODE UNDER THIS LINE      
+:scss
+  html, body, #sandbox{
+    width: 100%;
+    height: 100%;
+    overflow:hidden;
+  }
+  canvas{
+    border: 1px solid blue;
+    background: lighten(blue, 40%);
+  }
+
+
+#sandbox
+  %canvas{resize: "resize"}
+

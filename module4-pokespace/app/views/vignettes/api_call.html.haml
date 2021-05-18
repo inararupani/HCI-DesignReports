@@ -1,0 +1,93 @@
+:coffeescript
+  COVID_SYMPTOMS = ["sore throat", "congestion", "diahhrea", "trouble breathing"]
+  SYMPTOMS_STR_1 = "Symptoms: Sore throat, red eyes   ,CONGESTION"
+  SYMPTOMS_STR_2 = "Symptoms: Sore throat, Diahhrea, red eyes   ,CONGESTION   ,   trouble breathing, diZZIness"
+  SYMPTOMS_ARR_1 = ["sore throat", "diarrhea", "vertigo", "warts", "pale skin", "trouble breathing", "shortness of breath", "high blood pressure"]
+  
+  # MAIN FUNCTION
+  $ ->
+    alertify.set('notifier','position', 'top-left')
+    
+    response1 = problem1(SYMPTOMS_STR_1)
+    # $('#response').html(response1)
+    
+    problem2(SYMPTOMS_ARR_1)
+
+    problem3()
+
+  problem1 = (symptoms_string)->
+    console.log "PROBLEM1: STRING MANIPULATION"
+    # TODO
+    symptoms = localStorage["symptoms"].split(",")
+    _.each symptoms, (s)->
+      newDom = $("<p></p>").html(s)
+      $("#response").append(newDom)
+    # return "TODO"
+    
+  problem2 = (symptoms_arr)->
+    console.log "PROBLEM2: PROGRAMMATIC DOM"
+    # TODO
+    listHandle = $("#right-list")
+    listHandle.html("")
+    li = $("<li>").html("A")
+    listHandle.append(li)
+    return
+    
+  problem3 = ()->
+    API_KEY = "TODO" 
+    # TODO
+    return
+  
+  
+/ HTML/CSS CODE - DO NOT MODIFY ANYTHING UNDER THIS LINE  
+  
+:scss
+  .panel{
+    margin-top: 60px;
+  }
+  
+  .covid{
+    font-weight: bold;
+    color: blue;
+  }
+
+.ui.centered.grid
+  .ten.wide.column
+    .panel
+      #problem-1
+        %h1.ui.header.top.attached.blue String Manipulation
+        .ui.segment.stacked.attached
+          %p#response TODO
+      
+      %br 
+      
+      #problem-2
+        %h1.ui.header.top.attached.blue Programmatic DOM
+        .ui.segment.stacked.attached
+          .ui.two.column.stackable.grid.container
+            .column
+              .ui.header LEFT LIST
+              %ol.ui.list.ordered.left
+            .column
+              .ui.header RIGHT LIST
+              %ol.ui.list.ordered.right#right-list
+                %li A
+                %li B
+      
+      %br 
+      
+      #problem-3
+        %h1.ui.header.top.attached.blue Location Resolver
+        .ui.segment.stacked.attached
+          .ui.two.column.stackable.grid.container
+            .column
+              .ui.header COVID LOCATIONS
+              %ol.ui.list.ordered.left#covid-locations
+              / PROGRAMMATIVALLY ADD KNOWN COVID GPS LOCATIONS TO LIST  
+            .column
+              .ui.header RESOLVED LOCATIONS
+              %ol.ui.list.ordered.right#resolved-locations
+              / PROGRAMMATIVALLY RESOLVE COVID GPS LOCATIONS TO FORMATTED ADDRESSES
+            
+          
+

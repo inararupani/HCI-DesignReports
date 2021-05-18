@@ -1,0 +1,131 @@
+:coffeescript
+  window.log = []
+  long = undefined
+  lat = undefined
+  
+  $ ->
+
+    console.log("#2 GEOCODE")
+      
+    $('#log').click ->
+      # console.log("log button clicked")
+      x = [long, lat]
+      window.log.push(x)
+      console.log("logged x: " + x)
+      $('.badge').html(window.log.length)
+      
+    $('#print').click ->
+      # console.log("print button clicked")
+      $('#output').html('')
+      $.each window.log, (index, values)->
+        console.log("printed: " + values)
+        coords = $("<ol>").addClass("ui list ordered").html((index+1) + ') ' + values)
+        $('#output').append(coords)
+    
+    initGeolocation = ->
+      # console.log(navigator)
+      if navigator and navigator.geolocation
+        navigator.geolocation.watchPosition(successCallback, errorCallback)
+      else
+        console.log 'Geolocation is not supported'
+      return
+    
+    successCallback = (position) ->
+      long = position.coords.longitude.toFixed(2)
+      lat = position.coords.latitude.toFixed(2)
+      
+      # DOM injection
+      lo = $(".value:nth-child(2)").html(long)
+      la = $(".value:nth-child(1)").html(lat)
+
+      return
+    
+    errorCallback = ->
+      console.error ("ERROR")
+      
+    
+    watchID = navigator.geolocation.watchPosition(successCallback, errorCallback, enableHighAccuracy: true, timeout: 3000)
+    
+    
+    # TODO 
+    # 1. WATCH GPS LOCATION w/ 3000 ms TIMEOUT
+    #     UPDATE LAT/LONG UI
+    
+    # TODO: PRINT BUTTON HANDLER -- PRINT OUT THE CONTENTS OF WINDOW.LOG
+    #     INJECT ITEMS INTO THE  #output LIST
+    
+    
+     # TODO: LOG BUTTON HANDLER 
+     # -- APPEND THE CURRENT GPS TO A GLOBAL LOG (window.log)
+     # -- UPDATE THE LOG BADGE TO REFLECT THE LENGTH OF THE GLOBAL LOG
+   
+/ DO NOT MODIFY CODE UNDER THIS LINE      
+/ ----------------------------------
+/ GEOCODE
+.ui.centered.grid.fh
+  .ten.wide.column.fh
+    .ui.segment.panel.fh
+      .app-container.ccsb.fh
+        #coordinates.cc.fh
+          .ui.statistic
+            .label [Inara Rupani]
+            .value{name: "longitude"} –
+            .label Longitude
+          .ui.statistic
+            .value{name: "latitude"} –
+            .label Latitude
+       
+        .interaction
+          .feedback.ui.segment
+            .output
+              Press the log button to print stored GPS coordinates.
+              #output.ui.list.ordered
+                
+          .actions.ui.buttons.vertical.cr
+            %button.ui.button.massive.primary#log 
+              %span LOG
+              %span.badge 0
+            %button.ui.button.massive.secondary#print PRINT
+:scss
+  .fh{ /* Full Height */
+      height: 100%;
+  }
+  .ccsb{ /* Centered column space-between */
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .cc{ /* Centered column */
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+  .cr{
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+  .template{
+    display:none !important;
+  }
+  .panel{
+    margin-top: 60px;
+  }
+  .ui.statistic + .ui.statistic {
+    margin: 0em 0em 0em 0em;
+  }
+  .badge{
+    color: black;
+    background: white;
+    border-radius: 100px;
+    padding: 5px 15px;
+    margin-left: 10px;
+  }
+  
+  

@@ -1,0 +1,66 @@
+:coffeescript
+  POKEMON_SIGHTINGS_API_PT = "/api/pokemon_sightings"
+  GOOGLE_API_KEY = "AIzaSyA5jvS0kjANVuGMZsswMqabnigtcApwGcw"
+  POKEDEX_URL= "https://pokeapi.co/api/v2/pokemon/"
+  GEO_DISTANCE_URL = "https://maps.googleapis.com/maps/api/distancematrix/json"
+  
+  $ ->
+    console.log("#2 POKEMON SIGHTINGS")
+  
+    $.getJSON POKEMON_SIGHTINGS_API_PT
+    
+    
+    
+    loadGoogleMaps()
+    
+  window.initMap = ()->
+    console.log "GMaps loaded"
+    main()
+    
+  loadGoogleMaps = ()->
+    script = $("<script>")
+      .attr('src', 'https://maps.googleapis.com/maps/api/js?key='+GOOGLE_API_KEY+'&callback=initMap')
+      .attr('async', 'async')
+    $("head").append(script) 
+    
+  main = ()->
+    # TODO
+   
+    # 1. GRAB THE LIST OF POKEMON SIGHTINGS FROM THE POKEMON_SIGHTINGS_API_PT
+    
+    # 2. RESOLVE THE POKEMON ID TO ITS POKEMON IMAGE USING THE POKEDEX API POINT
+    
+    # 3. RESOLVE THE GPS LOCATION TO THE DISTANCE FROM YOUR CURRENT GPS LOCATION 
+    # THE GOOGLE MAPS JS API HAS BEEN ALREADY LOADED FOR YOU. (google.maps)
+    
+    # 4. POPULATE THE TABLE THROUGH A TEMPLATE CLONING STRATEGY
+    
+          
+/ DO NOT MODIFY CODE UNDER THIS LINE      
+/ ----------------------------------
+
+/ POKEMON SIGHTINGS
+.ui.grid.centered
+  #sightings.panel.fw
+    %h1.header.ui Pokemon Sightings
+    %table.fw
+      / ROW TEMPLATE
+      %tr.template
+        %td 
+          %img{src: "", alt:"todo:pokemon's name"}
+        %td 
+          .ui.statistic
+            .label Distance Away
+            .value
+              %span.distance -
+              
+:scss
+  .panel{
+    margin-top: 60px;
+  }
+  .fw{ /* Full Width */
+    width: 100%;
+  }
+  .template{
+    display: none;
+  }

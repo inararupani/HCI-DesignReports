@@ -1,0 +1,122 @@
+/ MODULE 4 - POKEDEX
+.ui.centered.grid
+  .ten.wide.column
+    .panel
+      %form.form
+        .ui.icon.input.fluid
+          %i.search.icon
+          %input{name: "id", type:"number", placeholder: "Pokemon ID", value: 1}
+      / YOUR SOLUTION HERE
+          
+      .ui.card
+        .image
+          %img.ability.load{"data-query":"sprites.front_default","data-input":"src"}
+        .content
+          %div
+            %span
+              %h1{:style => "float: right;font-weight:normal; font-size:25px"} &nbsp lbs
+            %span.right.floated
+              %h1.weight.load{:style => "float: right;font-weight:normal;font-size:25px","data-query":"weight", "data-input":"html"}
+            %span
+              %h1.name.load{:style => "float: left","data-query":"name", "data-input":"html"}
+
+        %span.meta
+          %p.type1.sameLine.load{:style => "display: inline-block; padding-left: 15px; font-size: 20px","data-query":"types.0.type.name","data-input":"html"}
+          %p.type2.sameLine.load{:style => "display: inline-block; font-size: 20px","data-query":"types.1.type.name","data-input":"html"}
+          
+        .content
+          %div
+            %i{:style => "font-size: 15px; font-weight: lighter"} STATS
+          .ui.list
+            .item
+              %p.stat.hp.load{:style => "font-size: 15px","data-query":"stats.0.base_stat", "data-input":"html"}
+              %p.stat.label{:style => "font-size: 15px"} hp
+            .item
+              %p.stat.attack.load{:style => "font-size: 15px","data-query":"stats.1.base_stat", "data-input":"html"}
+              %p.stat.label{:style => "font-size: 15px"} attack
+            .item
+              %p.stat.speattack.load{:style => "font-size: 15px","data-query":"stats.3.base_stat", "data-input":"html"}
+              %p.stat.label{:style => "font-size: 15px"} special-attack
+            .item
+              %p.stat.spedefense.load{:style => "font-size: 15px","data-query":"stats.4.base_stat", "data-input":"html"}
+              %p.stat.label{:style => "font-size: 15px"} special-defense
+            .item
+              %p.stat.speed.load{:style => "font-size: 15px","data-query":"stats.5.base_stat", "data-input":"html"}
+              %p.stat.label{:style => "font-size: 15px"} speed
+              
+        .extra.content
+          %p{:style => "display: inline-block"} #
+          %p.number.load{:style => "display: inline-block","data-query":"id","data-input":"html"} 
+      
+
+/ DO NOT MODIFY ANYTHING BELOW THESE LINES
+/ ----------------------------------
+:coffeescript
+  POKEDEX_URL= "https://pokeapi.co/api/v2/pokemon/"
+  
+  $ ->
+    
+    
+    # BIND FORM SUBMISSION BEHAVIOR TO POKEDEX CALL
+    $("form").submit (event)->
+      event.preventDefault()
+      data = $(this).serializeArray()
+      data =_.object(_.pluck(data, "name"), _.pluck(data, "value"))
+      grabPokedex(data.id)
+      return false
+  
+  capitalize = (str)->
+    str.charAt(0).toUpperCase()+str.slice(1)
+  
+  
+  window.grabPokedex = (id)->
+    $.getJSON POKEDEX_URL+id, (resp)->
+      _.each $(".load"), (el)->
+        # GRAB PROPERTIES SPECIFIED IN HAML
+        query = $(el).data("query")
+        input = $(el).data("input")
+        if _.isUndefined(query) then return
+       
+        # RESOLVE QUERY TO JSON VALUE
+        query = query.split(".")
+        result = resp
+        corrupt = false
+        _.each query, (key)->
+          if result[key]
+            result = result[key]
+          else
+            corrupt = true
+        if corrupt
+          return
+        
+        # HOW TO HANDLE THE JSON VALUE
+        switch input
+          when "html"
+            $(el).html(result)
+          when "src"
+            $(el).attr("src", result)
+          else
+            $(el).html(result)
+            
+      console.log "API RESPONSE", resp
+        
+
+
+:scss
+  .template{
+    
+    display: none !important;
+    
+  }
+  .panel{
+    margin-top: 60px;
+  }
+  .stat.label{
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 0px;
+    
+  }
+  .stat:not(.label){
+    float: right;
+  }

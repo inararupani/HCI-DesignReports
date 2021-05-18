@@ -1,0 +1,27 @@
+:css
+  html, body, .mobile{
+    width: 100% !important;
+    height: 100% !important;
+    overflow: hidden;
+  }
+  .hero{
+    padding: 30px;
+    height: 100%; 
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+  }
+  .mobile .hero h1{
+    font-size: 8em !important;
+  }
+
+:coffeescript  
+  $ ->
+    console.error window.navigator.userAgent
+
+.mobile
+  .hero
+    %h1 Hello Phone!
+  

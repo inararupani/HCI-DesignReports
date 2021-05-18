@@ -1,0 +1,18 @@
+// Place all the styles related to the book controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import 'dat.gui';
+
+#sandbox canvas{
+	cursor: pointer;
+}
+.dg {
+   font: 400 14px Verdana, Arial, sans-serif;
+   text-shadow: white 0 0 0;
+} 
+
+.dg .c select {
+   color: black !important;	
+}
+
