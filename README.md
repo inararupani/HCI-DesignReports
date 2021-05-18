@@ -6,9 +6,13 @@
  ----------------------------------------------------------------- 
 
 
-Hi there! Welcome to AWS Cloud9!
+### This is a repo of the following projects, completed and submitted for the course CSE 3392 Human Computer Interaction at The University of Texas at Arlington
 
-To get started, create some files, play with the terminal,
-or visit https://docs.aws.amazon.com/console/cloud9/ for our documentation.
+1. Module 2 - Refining the UI
+2. Module 3 - The Procedural Affordances • Coloring Interactions
+3. Moudle 4 - Spatial & Encyclopedic Affordances • The Pokespace
+4. Module 5 - Parcipatory Affordances • Mass Control 
 
-Happy coding!
+## Setup
+
+Each repository have a design report which was compeleted and submitted when the assignment was due. Each report have environment setup guidelines and any FIGMA designs for that report
